@@ -1,21 +1,19 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+
+import { AppHeavyComputationPipe } from './pipes/app-heavy-computation.pipe';
 
 @Component({
   standalone: true,
-  imports: [NgFor],
+  imports: [AppHeavyComputationPipe],
   selector: 'app-root',
   template: `
-    <div *ngFor="let person of persons; let index = index">
-      {{ heavyComputation(person, index) }}
-    </div>
+    @for (person of persons; track index; let index = $index) {
+      <div>
+        {{ person | appHeavyComputation: index }}
+      </div>
+    }
   `,
 })
 export class AppComponent {
-  persons = ['toto', 'jack'];
-
-  heavyComputation(name: string, index: number) {
-    // very heavy computation
-    return `${name} - ${index}`;
-  }
+  readonly persons: string[] = ['toto', 'jack'];
 }
